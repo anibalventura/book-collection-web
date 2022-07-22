@@ -3,6 +3,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import expressHbs from "express-handlebars";
 import errorRoutes from "./routes/error.routes.js";
+import database from "./helpers/database.helper.js";
+import Book from "./models/book.model.js";
+import Category from "./models/category.model.js";
+import Author from "./models/author.model.js";
+import Editorial from "./models/editorial.model.js";
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -27,7 +32,24 @@ app.use(express.static(path.join(__dirname, "public")));
 // Routes.
 app.use(errorRoutes);
 
+// Database relationships.
+Book.belongsTo(Category, { constraint: true, onDelete: "CASCADE" });
+Category.hasMany(Book);
+
+Book.belongsTo(Author, { constraint: true, onDelete: "CASCADE" });
+Author.hasMany(Book);
+
+Book.belongsTo(Editorial, { constraint: true, onDelete: "CASCADE" });
+Editorial.hasMany(Book);
+
 // Start the server.
-app.listen(PORT, () =>
-  console.log(`Server running on port http://localhost:${PORT}`)
-);
+database
+  .sync()
+  .then((_) => {
+    app.listen(PORT, () =>
+      console.log(`Server running on port http://localhost:${PORT}`)
+    );
+  })
+  .catch((err) => {
+    console.log(err);
+  });
