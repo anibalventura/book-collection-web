@@ -1,0 +1,32 @@
+{
+  "name": "book-collection-web",
+  "version": "1.0.0",
+  "description": "Do CRUD operations on books.",
+  "main": "./src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon ./src/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.7",
+    "sequelize": "^6.21.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anibalventura/book-collection-web.git"
+  },
+  "author": "Anibal Ventura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anibalventura/book-collection-web/issues"
+  },
+  "homepage": "https://github.com/anibalventura/book-collection-web#readme"
+}
