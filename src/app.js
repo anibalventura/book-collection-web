@@ -27,7 +27,7 @@ app.set("views", "./src/views");
 
 // Middleware's.
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes.
 app.use(errorRoutes);
