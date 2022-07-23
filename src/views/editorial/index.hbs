@@ -1,0 +1,67 @@
+<main>
+  <div class="row justify-content-center">
+    <div class="col-11">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary bg-opacity-75">
+          <h3 class="text-white">
+            Editorials Maintenance
+            <a
+              class="btn btn-success shadow-sm"
+              href="/editorials/create"
+            >Create</a>
+          </h3>
+
+        </div>
+        {{#if hasEditorials}}
+          <div class="card-body">
+            <div class="row">
+
+              {{#each editorials as |editorial|}}
+                <div class="col-3 mb-3">
+                  <div class="card shadow-sm h-100">
+                    <div class="card-body">
+
+                      <h4>{{editorial.name}}</h4>
+                      <div>
+                        <div>
+                          <label class="card-subtitle text-muted">Phone:</label>
+                          <span class="">{{editorial.phone}}</span>
+                        </div>
+                        <div>
+                          <label
+                            class="card-subtitle text-muted"
+                          >Country:</label>
+                          <span class="">{{editorial.country}}</span>
+                        </div>
+                      </div>
+                      <div
+                        class="mt-3 d-flex justify-content-between align-items-center"
+                      >
+                        <div class="btn-group">
+                          <a
+                            href="/editorials/edit/{{editorial.id}}"
+                            class="btn btn-sm btn-outline-warning"
+                          >Edit</a>
+                          <a
+                            href="/editorials/delete/{{editorial.id}}"
+                            class="btn btn-sm btn-outline-danger"
+                          >Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              {{/each}}
+            </div>
+          </div>
+        {{else}}
+          <div class="container-fluid text-center m-5">
+            <h4>No Editorials created!</h4>
+            <p>Start creating one.</p>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</main>

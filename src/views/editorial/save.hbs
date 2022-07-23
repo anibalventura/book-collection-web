@@ -1,0 +1,72 @@
+<main>
+  <div class="row">
+    <div class="col-5 offset-3">
+        <div class="card shadow-sm">
+        <div class="card-header {{#if editMode}}bg-warning{{else}}bg-success{{/if}} text-light">
+          <h4>{{#if editMode}}Edit Editorial{{else}}Create a Editorial{{/if}}</h4>
+        </div>
+        <div class="card-body">
+          <form method="post" action="{{#if editMode}}/editorials/edit{{else}}/editorials/create{{/if}}">
+
+            {{#if editMode}}
+                <input type="hidden" name="editorialId" value="{{editorial.id}}">
+            {{/if}}
+
+            <div class="form-group row mb-3">
+                <div class="col">
+                    <label for="name" class="form-label"><strong
+                        >Name:</strong></label>
+                    <input
+                        required
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter a name..."
+                        class="form-control shadow-sm"
+                        value="{{#if editMode}}{{editorial.name}}{{/if}}"
+                    />
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <div class="col">
+                    <label for="phone" class="form-label"><strong
+                        >Phone:</strong></label>
+                    <input
+                        required
+                        type="number"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter a phone..."
+                        class="form-control shadow-sm"
+                        value="{{#if editMode}}{{editorial.phone}}{{/if}}"
+                    />
+                </div>
+                <div class="col">
+                    <label for="country" class="form-label"><strong
+                        >Country:</strong></label>
+                    <input
+                        required
+                        type="text"
+                        id="country"
+                        name="country"
+                        placeholder="Enter a country..."
+                        class="form-control shadow-sm"
+                        value="{{#if editMode}}{{editorial.country}}{{/if}}"
+                    />
+                </div>
+            </div>
+
+            <div class="container-fluid text-center mt-4">
+                <button
+                type="submit"
+                class="btn btn-primary shadow-sm"
+                >Save</button>
+                <a href="/editorials" class="btn btn-secondary shadow-sm">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
