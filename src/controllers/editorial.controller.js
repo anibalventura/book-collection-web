@@ -1,16 +1,39 @@
 import Editorial from "../models/editorial.model.js";
+import Book from "../models/book.model.js";
 
 export const getIndex = (req, res) => {
-  Editorial.findAll()
+  Book.findAll()
     .then((result) => {
-      const editorials = result.map((result) => result.dataValues);
+      const booksResult = result.map((result) => result.dataValues);
 
-      res.render("../views/editorial/index", {
-        pageTitle: "Editorials",
-        editorialsActive: true,
-        editorials: editorials,
-        hasEditorials: editorials.length > 0,
-      });
+      Editorial.findAll()
+        .then((result) => {
+          const editorialsResult = result.map((result) => result.dataValues);
+
+          // Find how many books with each editorial.
+          const editorials = editorialsResult.map((editorial) => {
+            const count = booksResult.filter(
+              (book) => book.editorialId === editorial.id
+            ).length;
+            return {
+              id: editorial.id,
+              name: editorial.name,
+              phone: editorial.phone,
+              country: editorial.country,
+              count: count,
+            };
+          });
+
+          res.render("../views/editorial/index", {
+            pageTitle: "Editorials",
+            editorialsActive: true,
+            editorials: editorials,
+            hasEditorials: editorialsResult.length > 0,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

@@ -1,16 +1,38 @@
 import Category from "../models/category.model.js";
+import Book from "../models/book.model.js";
 
 export const getIndex = (req, res) => {
-  Category.findAll()
+  Book.findAll()
     .then((result) => {
-      const categories = result.map((result) => result.dataValues);
+      const booksResult = result.map((result) => result.dataValues);
 
-      res.render("../views/category/index", {
-        pageTitle: "Categories",
-        categoriesActive: true,
-        categories: categories,
-        hasCategories: categories.length > 0,
-      });
+      Category.findAll()
+        .then((result) => {
+          const categoriesResult = result.map((result) => result.dataValues);
+
+          // Find how many books with each category.
+          const categories = categoriesResult.map((category) => {
+            const count = booksResult.filter(
+              (book) => book.categoryId === category.id
+            ).length;
+            return {
+              id: category.id,
+              name: category.name,
+              description: category.description,
+              count: count,
+            };
+          });
+
+          res.render("../views/category/index", {
+            pageTitle: "Categories",
+            categoriesActive: true,
+            categories: categories,
+            hasCategories: categoriesResult.length > 0,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

@@ -1,16 +1,38 @@
 import Author from "../models/author.model.js";
+import Book from "../models/book.model.js";
 
 export const getIndex = (req, res) => {
-  Author.findAll()
+  Book.findAll()
     .then((result) => {
-      const authors = result.map((result) => result.dataValues);
+      const booksResult = result.map((result) => result.dataValues);
 
-      res.render("../views/author/index", {
-        pageTitle: "Authors",
-        authorsActive: true,
-        authors: authors,
-        hasAuthors: authors.length > 0,
-      });
+      Author.findAll()
+        .then((result) => {
+          const authorsResult = result.map((result) => result.dataValues);
+
+          // Find how many books with each author.
+          const authors = authorsResult.map((author) => {
+            const count = booksResult.filter(
+              (book) => book.authorId === author.id
+            ).length;
+            return {
+              id: author.id,
+              name: author.name,
+              email: author.email,
+              count: count,
+            };
+          });
+
+          res.render("../views/author/index", {
+            pageTitle: "Authors",
+            authorsActive: true,
+            authors: authors,
+            hasAuthors: authorsResult.length > 0,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
