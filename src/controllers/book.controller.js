@@ -3,6 +3,7 @@ import Category from "../models/category.model.js";
 import Author from "../models/author.model.js";
 import Editorial from "../models/editorial.model.js";
 import compare from "../helpers/hbs/compare.helper.js";
+import { sendEmail } from "../helpers/email.helper.js";
 
 let categories = [];
 let authors = [];
@@ -127,7 +128,25 @@ export const postCreate = (req, res) => {
     editorialId: editorialId,
   })
     .then(() => {
-      res.redirect("/books");
+      Author.findOne({ where: { id: authorId } })
+        .then((result) => {
+          const author = result.dataValues;
+
+          sendEmail({
+            from: "Book Collection",
+            to: author.email,
+            subject: "Book Collection - Your book has been published!",
+            html: `
+            Hi ${author.name}!<br><br>
+            Your book <strong>${title}</strong> has been published!<br><br>
+            Thank you for using Book Collection!
+            `,
+          });
+          res.redirect("/books");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
