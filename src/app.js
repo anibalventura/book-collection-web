@@ -2,9 +2,10 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import expressHbs from "express-handlebars";
-import editorialRoutes from "./routes/editorial.routes.js";
-import authorRoutes from "./routes/author.routes.js";
+import bookRoutes from "./routes/book.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
+import authorRoutes from "./routes/author.routes.js";
+import editorialRoutes from "./routes/editorial.routes.js";
 import errorRoutes from "./routes/error.routes.js";
 import database from "./helpers/database.helper.js";
 import Book from "./models/book.model.js";
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes.
+app.use(bookRoutes);
 app.use(editorialRoutes);
 app.use(authorRoutes);
 app.use(categoryRoutes);
