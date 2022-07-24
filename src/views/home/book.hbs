@@ -1,0 +1,44 @@
+<div class="row justify-content-center mb-4">
+  <div class="col-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-light">
+        <h4>{{book.title}}</h4>
+      </div>
+      <div class="card-body">
+        <input type="hidden" for="Id" />
+
+        <div class="row">
+          <div class="col">
+            <img
+              src="{{book.imagePath}}"
+              alt="{{book.title}}"
+              class="img-fluid shadow-sm"
+              width="350px"
+            />
+          </div>
+
+          <div class="col">
+            <div>
+              <h5>Publication Year</h5>
+              <p>{{book.publicationYear}}</p>
+            </div>
+            <div>
+              <h5>Category</h5>
+              <p>{{book.category.dataValues.name}}</p>
+            </div>
+            <div>
+              <h5>Author</h5>
+              <p>{{book.author.dataValues.name}}</p>
+            </div>
+            <div>
+              <h5>Editorial</h5>
+              <div>{{book.editorial.dataValues.name}}</div>
+              <div>Phone: {{book.editorial.dataValues.phone}}</div>
+              <div>Country: {{book.editorial.dataValues.country}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

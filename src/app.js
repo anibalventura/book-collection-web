@@ -13,6 +13,7 @@ import Book from "./models/book.model.js";
 import Category from "./models/category.model.js";
 import Author from "./models/author.model.js";
 import Editorial from "./models/editorial.model.js";
+import homeRoutes from "./routes/home.routes.js";
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -38,6 +39,7 @@ app.use(imagePath, express.static(path.join(__dirname, `..${imagePath}`)));
 app.use(imageStorage);
 
 // Routes.
+app.use(homeRoutes);
 app.use(bookRoutes);
 app.use(editorialRoutes);
 app.use(authorRoutes);
