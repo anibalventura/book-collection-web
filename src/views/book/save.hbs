@@ -7,7 +7,7 @@
                     <h4>{{#if editMode}}Edit Book{{else}}Create a Book{{/if}}</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{#if editMode}}/books/edit{{else}}/books/create{{/if}}">
+                    <form enctype="multipart/form-data" method="post" action="{{#if editMode}}/books/edit{{else}}/books/create{{/if}}">
 
                         {{#if editMode}}
                             <input type="hidden" name="bookId" value="{{book.id}}">
@@ -30,10 +30,8 @@
 
                         <div class="form-group row mb-3">
                             <div class="col">
-                                <label for="imagePath" class="form-label"><strong>Image:</strong></label>
-                                <input required id="imagePath" name="imagePath"
-                                    placeholder="https://www.image.com/image.png" class="form-control shadow-sm"
-                                    type="url" value="{{#if editMode}}{{book.imagePath}}{{/if}}" />
+                                <label for="imageFile" class="form-label"><strong>Select and image</strong></label>
+                                <input type="file" class="form-control" id="imageFile" name="image" />
                             </div>
                         </div>
 

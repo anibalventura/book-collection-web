@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import { imageStorage } from "./helpers/storage.helper.js";
 import expressHbs from "express-handlebars";
 import bookRoutes from "./routes/book.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
@@ -32,6 +33,9 @@ app.set("views", "./src/views");
 // Middleware's.
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../public")));
+const imagePath = "/public/images";
+app.use(imagePath, express.static(path.join(__dirname, `..${imagePath}`)));
+app.use(imageStorage);
 
 // Routes.
 app.use(bookRoutes);
@@ -43,16 +47,14 @@ app.use(errorRoutes);
 // Database relationships.
 Book.belongsTo(Category, { constraint: true, onDelete: "CASCADE" });
 Category.hasMany(Book);
-
 Book.belongsTo(Author, { constraint: true, onDelete: "CASCADE" });
 Author.hasMany(Book);
-
 Book.belongsTo(Editorial, { constraint: true, onDelete: "CASCADE" });
 Editorial.hasMany(Book);
 
-// Start the server.
+// Init database and start the server.
 database
-  .sync()
+  .sync(/*{ force: true }*/)
   .then((_) => {
     app.listen(PORT, () =>
       console.log(`Server running on port http://localhost:${PORT}`)

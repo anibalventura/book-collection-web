@@ -114,7 +114,7 @@ export const getCreate = (req, res) => {
 export const postCreate = (req, res) => {
   const title = req.body.title;
   const publicationYear = req.body.publicationYear;
-  const imagePath = req.body.imagePath;
+  const imagePath = "/" + req.file.path;
   const categoryId = req.body.categoryId;
   const authorId = req.body.authorId;
   const editorialId = req.body.editorialId;
@@ -195,24 +195,38 @@ export const postEdit = (req, res) => {
   const id = req.body.bookId;
   const title = req.body.title;
   const publicationYear = req.body.publicationYear;
-  const imagePath = req.body.imagePath;
+  const bookImage = req.file;
   const categoryId = req.body.categoryId;
   const authorId = req.body.authorId;
   const editorialId = req.body.editorialId;
 
-  Book.update(
-    {
-      title: title,
-      publicationYear: publicationYear,
-      imagePath: imagePath,
-      categoryId: categoryId,
-      authorId: authorId,
-      editorialId: editorialId,
-    },
-    { where: { id: id } }
-  )
-    .then(() => {
-      return res.redirect("/books");
+  Book.findOne({ where: { id: id } })
+    .then((result) => {
+      const book = result.dataValues;
+
+      if (!book) {
+        return res.redirect("/books");
+      }
+
+      const imagePath = bookImage ? `/${bookImage.path}` : book.imagePath;
+
+      Book.update(
+        {
+          title: title,
+          publicationYear: publicationYear,
+          imagePath: imagePath,
+          categoryId: categoryId,
+          authorId: authorId,
+          editorialId: editorialId,
+        },
+        { where: { id: id } }
+      )
+        .then(() => {
+          return res.redirect("/books");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
