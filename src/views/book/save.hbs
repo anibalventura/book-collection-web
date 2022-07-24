@@ -36,7 +36,7 @@
                                     <div class="col">
                                         <label for="imageFile" class="form-label"><strong>Select and
                                                 image</strong></label>
-                                        <input type="file" class="form-control" id="imageFile" name="image" />
+                                        <input {{#if editMode}}{{else}}required{{/if}} type="file" class="form-control" id="imageFile" name="image" />
                                     </div>
                                 </div>
 
